@@ -1,54 +1,80 @@
 Ответы на задачи Web3–Web12
+
 Web3
 Метод: GET
-Статус: 200 OK
-Content-Type: application/json; charset=utf-8
+Статус: 304
+Type: document
 Количество пользователей: 10
 Запрос со статусом не 200: нет
 
 Web4
 Вернулось комментариев: 5
-У скольких из них postId равен 5: у всех 5 (вернулись именно те данные, что запрашивали).
 
 Web5
-В ответе ровно 3 объекта.
-id объектов: 1, 2, 3
-Проверка: Параметр `_limit=3` отрезал кусок списка с самого начала, а не выбрал случайные элементы.
+Вернулось 3 обьекта 
+ "albumId": 1,
+        "id": 1,
+        albumId": 1,
+        "id": 2,
+         "albumId": 1,
+        "id": 3,
 
 Web6
-Количество ответов для postId=3: 5
-Количество ответов для postId=4: 5
-Назначение postId: Параметр отвечает за фильтрацию комментариев по идентификатору конкретной публикации.
+Количество ответов для postId=3:5
+Количество ответов для postId=4:5
+это погинация показывает на какой странице находиться user
 
 Web7
-Гипотеза: Думаю, что параметр _limit задает максимальное количество возвращаемых объектов в ответе.
-При значении 2: 2 объекта.
-При значении 7: 7 объектов.
+Гипотеза: Думаю, что параметр _limit задает ограничение возвращаемых объектов в ответе.
+Что потверждает ввод ссылки 
+https://jsonplaceholder.typicode.com/posts?_limit=2
+https://jsonplaceholder.typicode.com/posts?_limit=7
 
 Web8
-Кратко по портам и путям:
-1. jsonplaceholder: порт 443 (подразумеваемый по https), путь `/comments`
-2. localhost:8080: порт 8080 (явный), путь `/tasks`
-3. ://example.com: порт 3000 (явный), путь `/users/42/posts` (число 42 — это часть пути, а не порт, так как порт стоит строго перед первым слэшем).
+
+https://jsonplaceholder.typicode.com/comments?postId=7&_limit=4,
+
+Часть Значение
+Схема https
+Хост jsonplaceholder.typicode.com
+Порт не написан, подразумевается 443
+Путь -
+Query postId=7&_limit=4
+
+http://localhost:8080/tasks?page=2&sort=date
+
+Часть Значение
+Схема http
+Хост localhost:
+Порт 8080
+Путь -
+Query page=2&sort=date
+
+https://api.example.com:3000/users/42/posts?status=active.
+
+Часть Значение
+Схема https
+Хост api.example.com:
+Порт 3000
+Путь /users/42/
+Query status=active.
 
 Web9
-Объектов в /users/2/posts: 10 (первый ID: 11)
-Объектов в /posts?userId=2: 10 (первый ID: 11)
-Вывод: Обеими дорогами получены абсолютно одни и те же данные, так как совпали и количество, и ID первого объекта.
+Объектов в 10 (https://jsonplaceholder.typicode.com/posts?userId=2) 
+Объектов в 10 (https://jsonplaceholder.typicode.com/users/2/posts) 
+Результат один и тот же , данные добыты разнами путями 
 
 Web10
-Статус GET /users/1: 200 OK (Ресурс найден)
-Статус GET /users/11: 404 Not Found (Пользователя с таким номером в песочнице нет)
-Статус GET /users/1?foo=bar: 200 OK (Сервер проигнорировал неизвестный параметр)
-Вывод: Путь (номер пользователя) выбирает ресурс и ломает его при ошибке, а query-параметр (`?foo=bar`) на него не влияет.
+Статус 200 GET (https://jsonplaceholder.typicode.com/users/1) (Вывел 1 из user)
+Статус 404 GET(https://jsonplaceholder.typicode.com/users/11) (Не найдено)
+Статус 200 GET (https://jsonplaceholder.typicode.com/users/1?foo=bar.) (Вывел 1 из user)
+Сломалось при выводе /users/11 тк только 10 юзеров в одном id
 
 Web11
-Postman Content-Type (JSON): application/json; charset=utf-8
-Postman Content-Length: 5645
-DevTools HTML Content-Type: text/html; charset=utf-8
-DevTools JSON Content-Type: application/json; charset=utf-8
+Content-Type 	application/json; charset=utf-8
+Content-Length 1847
 
 Web12
-Первая страница (_page=1): 5 объектов, id первого объекта — 1
-Вторая страница (_page=2): 5 объектов, id первого объекта — 6
+Первая страница (_page=1): 5 объектов, id первого объекта - 1
+Вторая страница (_page=2): 5 объектов, id первого объекта - 6
 Параметр _page указывает номер отображаемой страницы при пагинации, сдвигая последовательность id дальше.
